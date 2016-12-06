@@ -23,7 +23,7 @@ type Websocket struct {
 }
 
 func NewWebsocket(path string) *Websocket {
-	return &Websocket{NewWatcher(path)}
+	return &Websocket{NewWatch(path)}
 }
 
 func (ws *Websocket) Reader(c *ws.Conn, closed chan<- bool) {
