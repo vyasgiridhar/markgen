@@ -1,4 +1,4 @@
-package Markgen
+package MarkGen
 
 import (
 	"fmt"
