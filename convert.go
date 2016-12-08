@@ -1,4 +1,4 @@
-package MarkGen
+package markgen
 
 import (
 	"github.com/microcosm-cc/bluemonday"

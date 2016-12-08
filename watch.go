@@ -1,4 +1,4 @@
-package MarkGen
+package markgen
 
 import (
 	"io/ioutil"

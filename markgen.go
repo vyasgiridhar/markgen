@@ -1,4 +1,4 @@
-package MarkGen
+package markgen
 
 import (
 	"fmt"
@@ -6,29 +6,38 @@ import (
 	"github.com/skratchdot/open-golang/open"
 )
 
-type MarkGen struct {
+const (
+	MarkdownChannelSize = 3
+	Version             = "0.0.2-dev"
+)
+
+type markgen struct {
 	port       int
 	httpServer *HTTPServer
 	stop       chan bool
 }
 
-func (*MarkGen) UseBasic() {
+func NewMarkGen(port int) *markgen {
+	return &markgen{port, nil, make(chan bool)}
+}
+
+func (*markgen) UseBasic() {
 	MdConverter.UseBasic()
 }
 
-func (m *MarkGen) Run(files ...string) {
-	m.httpServer = NewHTTPServer(o.port)
+func (m *markgen) Run(files ...string) {
+	m.httpServer = NewHTTPServer(m.port)
 	m.httpServer.Listen()
 
 	for _, file := range files {
-		addr := fmt.Sprintf("http://localhost:%d/%s", o.port, file)
+		addr := fmt.Sprintf("http://localhost:%d/%s", m.port, file)
 		open.Run(addr)
 	}
 
-	<-o.stop
+	<-m.stop
 }
 
-func (m *MarkGen) Stop() {
-	o.httpServer.Stop()
-	o.stop <- true
+func (m *markgen) Stop() {
+	m.httpServer.Stop()
+	m.stop <- true
 }
