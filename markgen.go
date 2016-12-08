@@ -2,6 +2,9 @@ package markgen
 
 import (
 	"fmt"
+	"strconv"
+
+	"net/http"
 
 	"github.com/skratchdot/open-golang/open"
 )
@@ -13,7 +16,7 @@ const (
 
 type markgen struct {
 	port       int
-	httpServer *HTTPServer
+	httpServer *http.Server
 	stop       chan bool
 }
 
@@ -26,8 +29,9 @@ func (*markgen) UseBasic() {
 }
 
 func (m *markgen) Run(files ...string) {
-	m.httpServer = NewHTTPServer(m.port)
-	m.httpServer.Listen()
+	port = ":" + strconv.Itoa(m.port)
+	m.httpServer = &http.Server{Addr: port}
+	go m.httpServer.ListenAndServe()
 
 	for _, file := range files {
 		addr := fmt.Sprintf("http://localhost:%d/%s", m.port, file)
