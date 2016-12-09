@@ -1,4 +1,4 @@
-package orange
+package markgen
 
 import (
 	"fmt"
@@ -55,7 +55,7 @@ func (w *Websocket) Writer(c *goWs.Conn, closed <-chan bool) {
 	}
 }
 
-func (w *Websocket) Serve(w http.ResponseWriter, r *http.Request) {
+func (ws *Websocket) Serve(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		http.Error(w, "Method not allowed", 405)
 		return
@@ -69,6 +69,6 @@ func (w *Websocket) Serve(w http.ResponseWriter, r *http.Request) {
 
 	closed := make(chan bool)
 
-	go w.Reader(sock, closed)
-	w.Writer(sock, closed)
+	go ws.Reader(sock, closed)
+	ws.Writer(sock, closed)
 }

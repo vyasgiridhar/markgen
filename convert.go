@@ -1,9 +1,6 @@
 package markgen
 
-import (
-	"github.com/microcosm-cc/bluemonday"
-	"github.com/russross/blackfriday"
-)
+import "github.com/russross/blackfriday"
 
 //MdConverter : Global Converter
 var MdConverter = NewMarkdownConverter()
@@ -25,5 +22,5 @@ func (md *MarkdownConverter) UseBasic() {
 
 //Convert : Returns the converted html
 func (md *MarkdownConverter) Convert(raw []byte) []byte {
-	return bluemonday.UGCPolicy().SanitizeBytes(md.convert(raw))
+	return md.convert(raw)
 }
